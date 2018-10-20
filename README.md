@@ -1,4 +1,4 @@
-# Ten repozytorium zawiera rozwiązania do systemu Raspbian urządzenia Rapberry Pi
+# To repozytorium zawiera rozwiązania do systemu Raspbian urządzenia Rapberry Pi
 
 
 Dodane rozwiązania:

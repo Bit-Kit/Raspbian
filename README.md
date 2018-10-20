@@ -1,7 +1,7 @@
 # To repozytorium zawiera rozwiązania do systemu Raspbian urządzenia Rapberry Pi
 
 
-Dodane rozwiązania:
+Dodane nowe rozwiązania:
 
 * **samba:** Organiazacja sieciowych zasobów Raspberry Pi z użyciem SAMBA
 * ...

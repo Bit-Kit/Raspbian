@@ -3,7 +3,8 @@
 
 Dodane rozwiązania:
 
-* **samba:** Organiazacja sieciowych zasobów Raspberry Pi z użyciem SAMBA
+* **[SAMBA](samba/Instrukcja.md)** - organiazacja sieciowych zasobów Raspberry Pi z użyciem SAMBA
+* **[FTP](ftp/Instrukcja.md)** - udostępnianie sieciowych zasobów z użyciem protokołu FTP   
 * ...
 
 

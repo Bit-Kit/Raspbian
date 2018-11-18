@@ -52,6 +52,10 @@ Zmieniamy właściciela foldera na "ftp":
 
     sudo chown ftp:ftp /var/ftp
 
+---
+### Źródła <a name="zrodla"></a>
+
+* [www.raspberrypi-spy.co.uk](https://www.raspberrypi-spy.co.uk/2018/05/creating-ftp-server-with-raspberry-pi/)
 
  
 

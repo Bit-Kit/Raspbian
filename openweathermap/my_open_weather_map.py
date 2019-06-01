@@ -42,6 +42,11 @@ def i2c_send(itime_forecast,itemp_forecast,istatus_forecast,ihumidity_forecast,i
     mylcd.lcd_display_string("Wilgotnosc:" + str(ihumidity_current)+ "%",2 )
     time.sleep(3.5)
     
+    mylcd.lcd_clear()
+    mylcd.lcd_display_string("Przypomnienie: ",1 )
+    mylcd.lcd_display_string("Wyniesc smieci",2 ) #)
+    time.sleep(3.5)
+    
 while(True):
     try:
         while (True):

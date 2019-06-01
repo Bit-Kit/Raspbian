@@ -19,7 +19,7 @@ I2C_LCD_driver (Należy pobrać plik z repozytorium):
   
 ## Moja implementacja:
 
-[my_open_weather_map.py](openweathermap/my_open_weather_map.py)
+[my_open_weather_map.py](my_open_weather_map.py)
   
 ## Automatyczne uruchomienie na Raspberry Pi:
 

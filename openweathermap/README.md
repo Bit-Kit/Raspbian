@@ -21,10 +21,35 @@ I2C_LCD_driver (Należy pobrać plik z repozytorium):
 
 [my_open_weather_map.py](my_open_weather_map.py)
   
-## Automatyczne uruchomienie na Raspberry Pi:
+## Automatyczne uruchomienie na Raspberry Pi przy starcie:
+Utwórz plik w:
 
-...
+    /etc/init.d
+    
+Zawartość pliku może być taką:
 
+    #! /bin/sh
+    ### BEGIN INIT INFO
+    # Provides:          weather
+    # Required-Start:    $all
+    # Required-Stop:
+    # Default-Start:     2 3 4 5
+    # Default-Stop:
+    # Short-Description: :)
+    ### END INIT INFO
+
+    echo "start init"
+    sleep 10
+    python3 /home/pi/<twój_skrypt.py> &  #Ścieżka do twójego skryptu
+    exit 0
+
+Zmień prawo dostępu utworzonego pliku:
+
+    chmod 777 <twój_plik>
+
+Dodaj plik do systemu startowego "update-rc.d":
+
+    update-rc.d weather defaults
 
 ---
 ### Źródła <a name="zrodla"></a>
@@ -32,3 +57,4 @@ I2C_LCD_driver (Należy pobrać plik z repozytorium):
 * [OpenWeatherMap API guide](https://openweathermap.org/guide)
 * [DenisFromHR_Github](https://gist.github.com/DenisFromHR)
 * [PyOWM dokumentacja](https://pyowm.readthedocs.io/en/latest/index.html#installation)
+* [Opis update-rc.d](http://manpages.ubuntu.com/manpages/bionic/pl/man8/update-rc.d.8.html)

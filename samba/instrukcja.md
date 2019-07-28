@@ -1,4 +1,4 @@
-# Udostępnienie zasobów Raspberry Pi w sieci
+# Udostępnianie zasobów Raspberry Pi w sieci
 
 ##### Krok po kroku:
 

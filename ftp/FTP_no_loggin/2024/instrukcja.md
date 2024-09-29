@@ -1,4 +1,4 @@
-# FTP serwer na Raspberry Pi do celów multimedialnych
+# FTP na Raspberry Pi do celów multimedialnych (nie dokończone)
 
 ### Cel:
 Celem jest stworzenie serwera FTP na Raspberry Pi z możliwością dostępu __bez autoryzacji__.
@@ -6,15 +6,26 @@ Celem jest stworzenie serwera FTP na Raspberry Pi z możliwością dostępu __be
 
 ### Hardware/Software:
 * Raspberry Pi 4 model B	B WiFi DualBand Bluetooth 2GB RAM 1,8GHz
-* System operacyjny: Raspbian GNU/Linux 9.4
-* Wersja Kernel: 4.14.62-v7+
+* System operacyjny: Raspbian GNU/Linux 9.4 
+* Wersja Kernel: 4.14.62-v7+ 
 ## Czynności przygotowawcze
 ### Pliki do pobrania
 * [Aktualna wercja Raspbian](https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-32-bit)
 * [Aplikacja "Etcher" dla zapisania obrazu Raspbian na kartę SD](https://etcher.balena.io/)
-## Instalacja
-Anstalacja pakietu vsftpd:
 
+### Ustawienia systemowe
+Po uruchomieniu systemu należy wykonać aktualizację pakietów:
+
+    sudo apt-get update   
+    sudo apt-get upgrade
+Przechodzimy do konfiguracji systemu raspbian
+
+    sudo raspi-config
+
+### Konfiguracja sieci
+## Instalacja pakietu vsftpd
+Instalacja pakietu vsftpd:
+    
     sudo apt-get install vsftpd
     
 Przeprowadzenie konfiguracji vsftpd.conf:
@@ -33,7 +44,7 @@ Zmieniamy następne pozycje:
    
    anon_root=/var/ftp/    #Wskazujemy ściężkę dla anonimowych użytkowników
    
-   local_enable-NO    #Zezwalamy wejście dla lokalnych użytkowników
+   local_enable-NO    #Oznacza, że ​​każdy normalny użytkownik wymieniony w /etc/passwdpliku może się zalogować.
    
    write_enable=YES    #Zezwalamy na zapisywanie plików
    
@@ -49,7 +60,7 @@ Zmieniamy następne pozycje:
    
    xferlog_enable=YES    #Zezwalamy na zapisywanie logów
    
-   connect_from_port_20=YES    #Ustalamy port wychodzonsych z serwera połączeń na 20
+   connect_from_port_20=YES    #Ustalamy port wychodzących połączeń z serwera na 20
    
    secure_chroot_dir=/var/run/vsftpd/empty  #
    
@@ -76,13 +87,15 @@ Zmieniamy właściciela foldera na "ftp":
 Resetujemy usługe:
 
     sudo service vsftpd restart 
-
+    
+## Montowanie nośnika przenośnego
 
 ---
 ### Źródła <a name="zrodla"></a>
 
 * [www.raspberrypi-spy.co.uk](https://www.raspberrypi-spy.co.uk/2018/05/creating-ftp-server-with-raspberry-pi/)
 * [dug.net.pl](https://dug.net.pl/tekst/158/konfiguracja_serwera_vsftpd_z_wirtualnymi_uzytkownikami_w_bazie_db4_/)
+* [FTP vs SMB](https://cloudinfrastructureservices.co.uk/ftp-vs-smb-whats-the-difference-performance-speed-security/)
 
  
 

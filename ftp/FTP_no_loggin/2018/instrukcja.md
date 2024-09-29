@@ -6,7 +6,7 @@ Ponieważ moje urządzenie docelowe ma ograniczoną funkcjonalność w przesyła
 potrzebowałem rozwiązanie, które by sprawiło przesyłanie plików po FTP, ale z ogólnie dostępnego foldera.
 
 ### Hardware/Software:
-* Raspberry Pi 3 model B WiFi Bluetooth 1GB RAM 1,2GHz
+* Raspberry Pi 4 model B (2018) WiFi DualBand Bluetooth 2GB RAM 1,8GHz
 * System operacyjny: Raspbian GNU/Linux 9.4
 * Wersja Kernel: 4.14.62-v7+
 

@@ -5,13 +5,14 @@ Celem jest stworzenie serwera FTP na Raspberry Pi z możliwością dostępu __be
 
 
 ### Hardware/Software:
-* Raspberry Pi 4 model B	B WiFi DualBand Bluetooth 2GB RAM 1,8GHz
-* System operacyjny: Raspbian GNU/Linux 9.4 
-* Wersja Kernel: 4.14.62-v7+ 
+* Raspberry Pi 4 model B WiFi DualBand Bluetooth 2GB RAM 1,8GHz
+* System operacyjny: Debian GNU/Linux 11 (lsb_release -a) 
+* Wersja Kernel: 6.1.21-v8+ (uname -r)
 ## Czynności przygotowawcze
 ### Pliki do pobrania
 * [Aktualna wercja Raspbian](https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-32-bit)
 * [Aplikacja "Etcher" dla zapisania obrazu Raspbian na kartę SD](https://etcher.balena.io/)
+* [PuTTY](https://www.putty.org/)
 
 ### Ustawienia systemowe
 Po uruchomieniu systemu należy wykonać aktualizację pakietów:
@@ -86,9 +87,24 @@ Zmieniamy właściciela foldera na "ftp":
     
 Resetujemy usługe:
 
-    sudo service vsftpd restart 
+    sudo service vsftpd restart  
+    sudo service vsftpd status
+
+## Rozwiązywanie problemów:
+Sprawdzamy porty (ftp - 21)
+
+    sudo ss -lt
+
     
 ## Montowanie nośnika przenośnego
+Sprawdzamy podłączone nośniki:
+
+    sudo fdisk -l
+    sudo mkdir /home/ftp/pendrive
+
+Montujemy nasz nośnik w systemie ntfs do /home/ftp/pendrive
+
+    sudo mount -t ntfs -o rw /dev/sda1 /home/ftp/pendrive
 
 ---
 ### Źródła <a name="zrodla"></a>
@@ -96,7 +112,8 @@ Resetujemy usługe:
 * [www.raspberrypi-spy.co.uk](https://www.raspberrypi-spy.co.uk/2018/05/creating-ftp-server-with-raspberry-pi/)
 * [dug.net.pl](https://dug.net.pl/tekst/158/konfiguracja_serwera_vsftpd_z_wirtualnymi_uzytkownikami_w_bazie_db4_/)
 * [FTP vs SMB](https://cloudinfrastructureservices.co.uk/ftp-vs-smb-whats-the-difference-performance-speed-security/)
-
+* [Artykuł](https://www.lissyara.su/articles/freebsd/programms/vsftpd/)
+* [Artykuł_2](https://unixforum.org/viewtopic.php?t=81575)
  
 
 

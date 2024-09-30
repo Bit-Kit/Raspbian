@@ -28,52 +28,95 @@ Przechodzimy do konfiguracji systemu raspbian
 Instalacja pakietu vsftpd:
     
     sudo apt-get install vsftpd
+
+## Dodanie użytkownika dla pracy ftp (w przypadku jeśli nie utworzono automatycznie podczas instalacji vsftpd)
+
+    sudo mkdir /var/ftp
+    sudo mkdir /home/ftp
     
+Tworzymy użytkownika ftp z -u najniższą wartością UID
+
+    sudo useradd -m -u 118  -s /usr/sbin/nologin ftp
+    sudo chmod a-w /var/ftp
+
+Dodajemy usera ftp do grupy ftp:
+
+    sudo usermod -a -G ftp ftp
+    
+Sprawdzamy poprawność parametrów konta ftp:
+
+    sudo cat /etc/passwd
+    sudo id ftp
+
+Powinno wyglądać przykładowo tak:
+
+    ftp:x:117:125:ftp daemon,,,:/srv/ftp:/usr/sbin/nologin
+
+## Dodadnie użytkownika anonimowego oraz folderu wspólnego:
+
+    sudo useradd -m  -s /usr/sbin/nologin useranonim             #Tworzymy użytkownika "useranonim"
+    sudo passwd useranonim                                       #Zadajemy hasło takie jak login
+    sudo chown root /var/ftp                                     #Główny folder powinien mieć właściciela root i zakaz zapisu
+    sudo chmod -w /var/ftp                                       #Główny folder powinien mieć zakaz zapisu
+    sudo mkdir /var/ftp/pobranie                                 #Tworzymy folder wspólny
+    sudo chmod a+rwx /var/ftp/pobranie/                          #Nadajemy folderowi uprawnienia
+    sudo chown useranonim:ftp /var/ftp/pobranie                  #Zmieniamy właściciela wspólnego foldera na "useranonim"
+    sudo chmod g+s /var/ftp/pobranie/                            #Parametr dzięki któremu wszystkie tworzone foldery w pobranie/ będą przypisywane "useranonim"
+
+
+    sudo id useranonim
+
 Przeprowadzenie konfiguracji vsftpd.conf:
 
     sudo nano /etc/vsftpb.conf
     
 Zmieniamy następne pozycje:
 ```
-   listen=NO    #Opcja YES pozwoli VSFTPD działać bez pomocy inetd/xinetd.
+   listen=YES    #Opcja YES pozwoli VSFTPD działać bez pomocy inetd/xinetd.
    
-   listen_ipv6=YES    #Włączamy nasłuchiwanie protokołu Ipv6
+   listen_ipv6=NO    #Włączamy nasłuchiwanie protokołu Ipv6
    
    anonymous_enable=YES    #Zezwolamy na anonimowy dostęp
-   
-   no_anon_password=YES    #Wyłączamy żądanie hasła dla anonimowych użytkowników
-   
-   anon_root=/var/ftp/    #Wskazujemy ściężkę dla anonimowych użytkowników
-   
-   local_enable-NO    #Oznacza, że ​​każdy normalny użytkownik wymieniony w /etc/passwdpliku może się zalogować.
-   
-   write_enable=YES    #Zezwalamy na zapisywanie plików
-   
+
+   local_enable=YES
+    
+   write_enable=YES
+
+   ?no_anon_password=YES    #Wyłączamy żądanie hasła dla anonimowych użytkowników
+
    anon_upload_enable=YES    #Zezwalamy na pobieranie plików dla anonimowych użytkowników
    
    anon_mkdir_write_enable=YES    #Zezwalamy anonimowym użytkownikom na tworzenie folderów
-   
-   dirmessage_enable=YES    #Opcja YES wyświetla wiadomość z pliku .message użytkownikom,
-   którzy weśli do katalogu
-   
-   use_localtime=YES    #Przy YES vsftpd wyświetli listę katalogów z czasem w lokalnej strefie czasowej.
+ 
+   use_localtime=YES         #Przy YES vsftpd wyświetli listę katalogów z czasem w lokalnej strefie czasowej.
    Domyślnie wyświetla się GMT.
-   
-   xferlog_enable=YES    #Zezwalamy na zapisywanie logów
-   
-   connect_from_port_20=YES    #Ustalamy port wychodzących połączeń z serwera na 20
-   
-   secure_chroot_dir=/var/run/vsftpd/empty  #
-   
-   pam_service_name=vsftpd    #Wskazujemy PAM serwis
-   
-   rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem    #Tu jest ścieżka do certyfikatu SSL
-   
-   rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key    #Tu jest ścieżka do prywatnego klucza SSL
-   
-   ssl_enable=NO    #Wyłączamy certyfikacje SSL
+
+   xferlog_enable=YES
+
+   connect_from_port_20=YES
+
+   chown_uploads=YES
+
+   chown_username="anonimUser"
+
+   chroot_local_user=YES
+
+   chroot_list_enable=YES
+
+   pam_service_name=vsftpd
+
    ```
-Reszta pozostaje zakomentowana. W następnym kroku tworzymy folder do plików:
+Reszta pozostaje zakomentowana. 
+Na samym końcu dodajemy:
+```
+
+anon_root=/home/ftp
+local_root=/home/"anonimUser"
+nopriv_user="anonimUser"
+allow_writeable_chroot=YES
+```
+
+W następnym kroku tworzymy folder do plików:
    
     sudo mkdir /var/ftp
         
@@ -95,12 +138,19 @@ Sprawdzamy porty (ftp - 21)
 
     sudo ss -lt
 
-    
+
+How to Solve the VSFTPD 500 OOPS Error - 
 ## Montowanie nośnika przenośnego
 Sprawdzamy podłączone nośniki:
 
     sudo fdisk -l
     sudo mkdir /home/ftp/pendrive
+    
+Folder powinien mieć uprawnienia:
+
+    sudo chmod a-w /home/ftp/
+
+    
 
 Montujemy nasz nośnik w systemie ntfs do /home/ftp/pendrive
 
@@ -113,7 +163,7 @@ Montujemy nasz nośnik w systemie ntfs do /home/ftp/pendrive
 * [dug.net.pl](https://dug.net.pl/tekst/158/konfiguracja_serwera_vsftpd_z_wirtualnymi_uzytkownikami_w_bazie_db4_/)
 * [FTP vs SMB](https://cloudinfrastructureservices.co.uk/ftp-vs-smb-whats-the-difference-performance-speed-security/)
 * [Artykuł](https://www.lissyara.su/articles/freebsd/programms/vsftpd/)
-* [Artykuł_2](https://unixforum.org/viewtopic.php?t=81575)
+* [Artykuł_2-informacja_na_temat_dostępności_wspólnego_folderu](https://unixforum.org/viewtopic.php?t=81575)
  
 
 

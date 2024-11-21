@@ -1,7 +1,7 @@
 # To repozytorium zawiera rozwiązania do systemu Raspbian urządzenia Rapberry Pi
 
 
-Dodane rozwiązania:
+Dodane nowe rozwiązania:
 
 * **[SAMBA](samba/instrukcja.md)** - organiazacja sieciowych zasobów Raspberry Pi z użyciem SAMBA
 * **[FTP](ftp/instrukcja.md)** - udostępnianie sieciowych zasobów z użyciem protokołu FTP   
